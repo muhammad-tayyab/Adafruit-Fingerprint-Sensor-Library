@@ -16,14 +16,10 @@
   Written by Limor Fried/Ladyada for Adafruit Industries.
   BSD license, all text above must be included in any redistribution
  ****************************************************/
+#include <stdint.h>
+#include <cstring>
+#include "libserial/SerialStream.h"
 
-#include "Arduino.h"
-#if defined(__AVR__) || defined(ESP8266)
-  #include <SoftwareSerial.h>
-#elif defined(FREEDOM_E300_HIFIVE1)
-  #include <SoftwareSerial32.h>
-  #define SoftwareSerial SoftwareSerial32
-#endif
 
 #define FINGERPRINT_OK 0x00
 #define FINGERPRINT_PACKETRECIEVEERR 0x01
@@ -108,14 +104,11 @@ struct Adafruit_Fingerprint_Packet {
 ///! Helper class to communicate with and keep state for fingerprint sensors
 class Adafruit_Fingerprint {
  public:
-#if defined(__AVR__) || defined(ESP8266) || defined(FREEDOM_E300_HIFIVE1)
-  Adafruit_Fingerprint(SoftwareSerial *ss, uint32_t password = 0x0);
-#endif
-  Adafruit_Fingerprint(HardwareSerial *hs, uint32_t password = 0x0);
+  Adafruit_Fingerprint(uint32_t password = 0x0);
 
   void begin(uint32_t baud);
 
-  boolean verifyPassword(void);
+  bool verifyPassword(void);
   uint8_t getImage(void);
   uint8_t image2Tz(uint8_t slot = 1);
   uint8_t createModel(void);
@@ -144,11 +137,9 @@ class Adafruit_Fingerprint {
   uint32_t theAddress;
     uint8_t recvPacket[20];
 
-  Stream *mySerial;
-#if defined(__AVR__) || defined(ESP8266) || defined(FREEDOM_E300_HIFIVE1)
-  SoftwareSerial *swSerial;
-#endif
-  HardwareSerial *hwSerial;
+  
+  LibSerial::SerialStream  mySerial;
+  LibSerial::SerialStream *hwSerial;
 };
 
 #endif

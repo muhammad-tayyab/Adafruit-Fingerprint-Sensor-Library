@@ -1,0 +1,36 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/home/tayyab/Work/buildroot/output/host/arm-buildroot-linux-gnueabihf/sysroot/usr/include/**"
+            ],
+            "defines": [],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64"
+        },
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "/home/tayyab/Work/buildroot/output/host/arm-buildroot-linux-gnueabihf/sysroot/usr/include/**"
+            ],
+            "defines": [],
+            "compilerPath": "~/Work/buildroot/output/host/usr/bin/arm-buildroot-linux-gnueabihf-g++",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "compilerArgs": [],
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**",
+                    "/home/tayyab/Work/buildroot/output/host/arm-buildroot-linux-gnueabihf/sysroot/usr/include/"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            }
+        }
+    ],
+    "version": 4
+}
