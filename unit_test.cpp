@@ -20,5 +20,16 @@ int main()
     finger->begin(57600);
     printf("verifying pass\n");
     printf("verify %d\n",finger->verifyPassword());
+    for (int i=0;i<50;i++){
+        usleep(500*1000);
+        int res;
+        res=finger->getImage();
+    printf("getimage %d\n",res);
+    if (res==FINGERPRINT_OK){
+        res=finger->image2Tz();
+        printf("image2tz %d\n",res);
+    }
+
+    }
     return 0;
 }

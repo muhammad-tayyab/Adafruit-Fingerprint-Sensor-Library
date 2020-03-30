@@ -18,7 +18,7 @@
  ****************************************************/
 #include <stdint.h>
 #include <cstring>
-#include "libserial/SerialStream.h"
+#include "libserial/SerialPort.h"
 
 
 #define FINGERPRINT_OK 0x00
@@ -136,10 +136,9 @@ class Adafruit_Fingerprint {
   uint32_t thePassword;
   uint32_t theAddress;
     uint8_t recvPacket[20];
-
-  
-  LibSerial::SerialStream  mySerial;
-  LibSerial::SerialStream *hwSerial;
+ 
+  LibSerial::SerialPort  mySerial;
+  LibSerial::SerialPort *hwSerial;
 };
 
 #endif

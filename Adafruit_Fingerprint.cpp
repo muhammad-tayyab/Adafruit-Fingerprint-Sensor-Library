@@ -18,10 +18,13 @@
 #include <unistd.h>
 //#define FINGERPRINT_DEBUG
 
-#define SERIAL_WRITE(...)  *hwSerial << __VA_ARGS__ ;
+#define SERIAL_WRITE(...)  hwSerial->WriteByte(__VA_ARGS__)
 
-
-#define SERIAL_WRITE_U16(v) SERIAL_WRITE((uint8_t)(v>>8)); SERIAL_WRITE((uint8_t)(v & 0xFF));
+uint8_t v1,v2;
+#define SERIAL_WRITE_U16(v) \
+v1=(uint8_t)(v>>8); \
+v2=(uint8_t)(v & 0xFF); \ 
+SERIAL_WRITE(v1); SERIAL_WRITE(v2);
 
 #define GET_CMD_PACKET(...) \
   uint8_t data[] = {__VA_ARGS__}; \
@@ -252,16 +255,17 @@ uint8_t Adafruit_Fingerprint::setPassword(uint32_t password) {
 
 void Adafruit_Fingerprint::writeStructuredPacket(const Adafruit_Fingerprint_Packet & packet) {
   printf("writing \n");
+  //hwSerial->Write()
   SERIAL_WRITE_U16(packet.start_code);
-  SERIAL_WRITE(packet.address[0])
-  SERIAL_WRITE(packet.address[1])
+
+  SERIAL_WRITE(packet.address[0]);
+  SERIAL_WRITE(packet.address[1]);
   SERIAL_WRITE(packet.address[2]);
   SERIAL_WRITE(packet.address[3]);
   SERIAL_WRITE(packet.type);
 
   uint16_t wire_length = packet.length + 2;
   SERIAL_WRITE_U16(wire_length);
-
   uint16_t sum = ((wire_length)>>8) + ((wire_length)&0xFF) + packet.type;
   for (uint8_t i=0; i< packet.length; i++) {
     SERIAL_WRITE(packet.data[i]);
@@ -298,7 +302,8 @@ uint8_t Adafruit_Fingerprint::getStructuredPacket(Adafruit_Fingerprint_Packet * 
       }
     }*/
     //printf("reading\n");
-    hwSerial->read((char *)&byte,1);
+    hwSerial->ReadByte(byte,1000);
+    //hwSerial->read((char *)&byte,1);
 #ifdef FINGERPRINT_DEBUG
     Serial.print("<- 0x"); Serial.println(byte, HEX);
 #endif
